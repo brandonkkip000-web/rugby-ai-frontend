@@ -18,6 +18,10 @@ import { routeTree } from './routeTree.gen'
 // Styles
 import './styles/index.css'
 
+// Ensure router respects subpath when hosted on GitHub Pages
+// Vite sets import.meta.env.BASE_URL to '/rugby-ai-frontend/' in production
+const basepath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -75,6 +79,7 @@ const router = createRouter({
   context: { queryClient },
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
+  basepath,
 })
 
 // Register the router instance for type safety
