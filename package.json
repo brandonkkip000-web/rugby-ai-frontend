@@ -1,7 +1,8 @@
 {
   "name": "rugby-ai",
-  "private": false,
   "version": "2.1.0",
+  "private": false,
+  "homepage": "https://brandonkkip000-web.github.io/rugby-ai-frontend",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +11,9 @@
     "preview": "vite preview",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
-    "knip": "knip"
+    "knip": "knip",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.42.1",
@@ -82,3 +85,4 @@
     "vite": "^7.1.2"
   }
 }
+
