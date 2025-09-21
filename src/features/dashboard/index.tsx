@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -19,9 +18,6 @@ import {
   Target, 
   Calendar
 } from 'lucide-react'
-import { 
-  
-} from 'recharts'
 
 export function Dashboard() {
   const { data: dashboardStats, isLoading } = useQuery({
