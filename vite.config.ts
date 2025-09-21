@@ -5,9 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 
 // https://vite.dev/config/
-export default defineConfig({
-  // 👇 Required for GitHub Pages deployment
-  base: '/rugby-ai-frontend/',
+export default defineConfig(({ mode }) => ({
+  // Use root base in dev, subpath only in production builds
+  base: mode === 'production' ? '/rugby-ai-frontend/' : '/',
   plugins: [
     tanstackRouter({
       target: 'react',
@@ -21,4 +21,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-});
+}));
