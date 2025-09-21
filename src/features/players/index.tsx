@@ -40,19 +40,19 @@ export function Players() {
       title: 'By Position',
       href: '/players/positions',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Statistics',
       href: '/players/stats',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Top Performers',
       href: '/players/top',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
   ]
 

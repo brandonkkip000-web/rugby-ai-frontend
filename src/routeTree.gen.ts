@@ -38,12 +38,21 @@ import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authentica
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
+import { Route as AuthenticatedTeamsTableRouteImport } from './routes/_authenticated/teams/table'
+import { Route as AuthenticatedTeamsStatsRouteImport } from './routes/_authenticated/teams/stats'
+import { Route as AuthenticatedTeamsHeadToHeadRouteImport } from './routes/_authenticated/teams/head-to-head'
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated/teams/$teamId'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedPlayersTopRouteImport } from './routes/_authenticated/players/top'
+import { Route as AuthenticatedPlayersStatsRouteImport } from './routes/_authenticated/players/stats'
+import { Route as AuthenticatedPlayersPositionsRouteImport } from './routes/_authenticated/players/positions'
 import { Route as AuthenticatedPlayersPlayerIdRouteImport } from './routes/_authenticated/players/$playerId'
+import { Route as AuthenticatedInsightsTrendsRouteImport } from './routes/_authenticated/insights/trends'
+import { Route as AuthenticatedInsightsTacticalRouteImport } from './routes/_authenticated/insights/tactical'
+import { Route as AuthenticatedInsightsPredictionsRouteImport } from './routes/_authenticated/insights/predictions'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
@@ -195,6 +204,22 @@ const ClerkauthSignInRoute = ClerkauthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => ClerkauthRouteRoute,
 } as any)
+const AuthenticatedTeamsTableRoute = AuthenticatedTeamsTableRouteImport.update({
+  id: '/teams/table',
+  path: '/teams/table',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeamsStatsRoute = AuthenticatedTeamsStatsRouteImport.update({
+  id: '/teams/stats',
+  path: '/teams/stats',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeamsHeadToHeadRoute =
+  AuthenticatedTeamsHeadToHeadRouteImport.update({
+    id: '/teams/head-to-head',
+    path: '/teams/head-to-head',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTeamsTeamIdRoute =
   AuthenticatedTeamsTeamIdRouteImport.update({
     id: '/teams/$teamId',
@@ -225,10 +250,45 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedPlayersTopRoute = AuthenticatedPlayersTopRouteImport.update({
+  id: '/players/top',
+  path: '/players/top',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPlayersStatsRoute =
+  AuthenticatedPlayersStatsRouteImport.update({
+    id: '/players/stats',
+    path: '/players/stats',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPlayersPositionsRoute =
+  AuthenticatedPlayersPositionsRouteImport.update({
+    id: '/players/positions',
+    path: '/players/positions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPlayersPlayerIdRoute =
   AuthenticatedPlayersPlayerIdRouteImport.update({
     id: '/players/$playerId',
     path: '/players/$playerId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInsightsTrendsRoute =
+  AuthenticatedInsightsTrendsRouteImport.update({
+    id: '/insights/trends',
+    path: '/insights/trends',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInsightsTacticalRoute =
+  AuthenticatedInsightsTacticalRouteImport.update({
+    id: '/insights/tactical',
+    path: '/insights/tactical',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedInsightsPredictionsRoute =
+  AuthenticatedInsightsPredictionsRouteImport.update({
+    id: '/insights/predictions',
+    path: '/insights/predictions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedErrorsErrorRoute =
@@ -254,12 +314,21 @@ export interface FileRoutesByFullPath {
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/insights/predictions': typeof AuthenticatedInsightsPredictionsRoute
+  '/insights/tactical': typeof AuthenticatedInsightsTacticalRoute
+  '/insights/trends': typeof AuthenticatedInsightsTrendsRoute
   '/players/$playerId': typeof AuthenticatedPlayersPlayerIdRoute
+  '/players/positions': typeof AuthenticatedPlayersPositionsRoute
+  '/players/stats': typeof AuthenticatedPlayersStatsRoute
+  '/players/top': typeof AuthenticatedPlayersTopRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
+  '/teams/head-to-head': typeof AuthenticatedTeamsHeadToHeadRoute
+  '/teams/stats': typeof AuthenticatedTeamsStatsRoute
+  '/teams/table': typeof AuthenticatedTeamsTableRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -288,12 +357,21 @@ export interface FileRoutesByTo {
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/insights/predictions': typeof AuthenticatedInsightsPredictionsRoute
+  '/insights/tactical': typeof AuthenticatedInsightsTacticalRoute
+  '/insights/trends': typeof AuthenticatedInsightsTrendsRoute
   '/players/$playerId': typeof AuthenticatedPlayersPlayerIdRoute
+  '/players/positions': typeof AuthenticatedPlayersPositionsRoute
+  '/players/stats': typeof AuthenticatedPlayersStatsRoute
+  '/players/top': typeof AuthenticatedPlayersTopRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
+  '/teams/head-to-head': typeof AuthenticatedTeamsHeadToHeadRoute
+  '/teams/stats': typeof AuthenticatedTeamsStatsRoute
+  '/teams/table': typeof AuthenticatedTeamsTableRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -327,12 +405,21 @@ export interface FileRoutesById {
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/_authenticated/insights/predictions': typeof AuthenticatedInsightsPredictionsRoute
+  '/_authenticated/insights/tactical': typeof AuthenticatedInsightsTacticalRoute
+  '/_authenticated/insights/trends': typeof AuthenticatedInsightsTrendsRoute
   '/_authenticated/players/$playerId': typeof AuthenticatedPlayersPlayerIdRoute
+  '/_authenticated/players/positions': typeof AuthenticatedPlayersPositionsRoute
+  '/_authenticated/players/stats': typeof AuthenticatedPlayersStatsRoute
+  '/_authenticated/players/top': typeof AuthenticatedPlayersTopRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/teams/$teamId': typeof AuthenticatedTeamsTeamIdRoute
+  '/_authenticated/teams/head-to-head': typeof AuthenticatedTeamsHeadToHeadRoute
+  '/_authenticated/teams/stats': typeof AuthenticatedTeamsStatsRoute
+  '/_authenticated/teams/table': typeof AuthenticatedTeamsTableRoute
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -365,12 +452,21 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/errors/$error'
+    | '/insights/predictions'
+    | '/insights/tactical'
+    | '/insights/trends'
     | '/players/$playerId'
+    | '/players/positions'
+    | '/players/stats'
+    | '/players/top'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
     | '/teams/$teamId'
+    | '/teams/head-to-head'
+    | '/teams/stats'
+    | '/teams/table'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -399,12 +495,21 @@ export interface FileRouteTypes {
     | '/503'
     | '/'
     | '/errors/$error'
+    | '/insights/predictions'
+    | '/insights/tactical'
+    | '/insights/trends'
     | '/players/$playerId'
+    | '/players/positions'
+    | '/players/stats'
+    | '/players/top'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
     | '/teams/$teamId'
+    | '/teams/head-to-head'
+    | '/teams/stats'
+    | '/teams/table'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -437,12 +542,21 @@ export interface FileRouteTypes {
     | '/(errors)/503'
     | '/_authenticated/'
     | '/_authenticated/errors/$error'
+    | '/_authenticated/insights/predictions'
+    | '/_authenticated/insights/tactical'
+    | '/_authenticated/insights/trends'
     | '/_authenticated/players/$playerId'
+    | '/_authenticated/players/positions'
+    | '/_authenticated/players/stats'
+    | '/_authenticated/players/top'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/teams/$teamId'
+    | '/_authenticated/teams/head-to-head'
+    | '/_authenticated/teams/stats'
+    | '/_authenticated/teams/table'
     | '/clerk/(auth)/sign-in'
     | '/clerk/(auth)/sign-up'
     | '/clerk/_authenticated/user-management'
@@ -678,6 +792,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthSignInRouteImport
       parentRoute: typeof ClerkauthRouteRoute
     }
+    '/_authenticated/teams/table': {
+      id: '/_authenticated/teams/table'
+      path: '/teams/table'
+      fullPath: '/teams/table'
+      preLoaderRoute: typeof AuthenticatedTeamsTableRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teams/stats': {
+      id: '/_authenticated/teams/stats'
+      path: '/teams/stats'
+      fullPath: '/teams/stats'
+      preLoaderRoute: typeof AuthenticatedTeamsStatsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/teams/head-to-head': {
+      id: '/_authenticated/teams/head-to-head'
+      path: '/teams/head-to-head'
+      fullPath: '/teams/head-to-head'
+      preLoaderRoute: typeof AuthenticatedTeamsHeadToHeadRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/teams/$teamId': {
       id: '/_authenticated/teams/$teamId'
       path: '/teams/$teamId'
@@ -713,11 +848,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/players/top': {
+      id: '/_authenticated/players/top'
+      path: '/players/top'
+      fullPath: '/players/top'
+      preLoaderRoute: typeof AuthenticatedPlayersTopRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/players/stats': {
+      id: '/_authenticated/players/stats'
+      path: '/players/stats'
+      fullPath: '/players/stats'
+      preLoaderRoute: typeof AuthenticatedPlayersStatsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/players/positions': {
+      id: '/_authenticated/players/positions'
+      path: '/players/positions'
+      fullPath: '/players/positions'
+      preLoaderRoute: typeof AuthenticatedPlayersPositionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/players/$playerId': {
       id: '/_authenticated/players/$playerId'
       path: '/players/$playerId'
       fullPath: '/players/$playerId'
       preLoaderRoute: typeof AuthenticatedPlayersPlayerIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/insights/trends': {
+      id: '/_authenticated/insights/trends'
+      path: '/insights/trends'
+      fullPath: '/insights/trends'
+      preLoaderRoute: typeof AuthenticatedInsightsTrendsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/insights/tactical': {
+      id: '/_authenticated/insights/tactical'
+      path: '/insights/tactical'
+      fullPath: '/insights/tactical'
+      preLoaderRoute: typeof AuthenticatedInsightsTacticalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/insights/predictions': {
+      id: '/_authenticated/insights/predictions'
+      path: '/insights/predictions'
+      fullPath: '/insights/predictions'
+      preLoaderRoute: typeof AuthenticatedInsightsPredictionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/errors/$error': {
@@ -757,8 +934,17 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
+  AuthenticatedInsightsPredictionsRoute: typeof AuthenticatedInsightsPredictionsRoute
+  AuthenticatedInsightsTacticalRoute: typeof AuthenticatedInsightsTacticalRoute
+  AuthenticatedInsightsTrendsRoute: typeof AuthenticatedInsightsTrendsRoute
   AuthenticatedPlayersPlayerIdRoute: typeof AuthenticatedPlayersPlayerIdRoute
+  AuthenticatedPlayersPositionsRoute: typeof AuthenticatedPlayersPositionsRoute
+  AuthenticatedPlayersStatsRoute: typeof AuthenticatedPlayersStatsRoute
+  AuthenticatedPlayersTopRoute: typeof AuthenticatedPlayersTopRoute
   AuthenticatedTeamsTeamIdRoute: typeof AuthenticatedTeamsTeamIdRoute
+  AuthenticatedTeamsHeadToHeadRoute: typeof AuthenticatedTeamsHeadToHeadRoute
+  AuthenticatedTeamsStatsRoute: typeof AuthenticatedTeamsStatsRoute
+  AuthenticatedTeamsTableRoute: typeof AuthenticatedTeamsTableRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedComparisonsIndexRoute: typeof AuthenticatedComparisonsIndexRoute
@@ -774,8 +960,17 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
+  AuthenticatedInsightsPredictionsRoute: AuthenticatedInsightsPredictionsRoute,
+  AuthenticatedInsightsTacticalRoute: AuthenticatedInsightsTacticalRoute,
+  AuthenticatedInsightsTrendsRoute: AuthenticatedInsightsTrendsRoute,
   AuthenticatedPlayersPlayerIdRoute: AuthenticatedPlayersPlayerIdRoute,
+  AuthenticatedPlayersPositionsRoute: AuthenticatedPlayersPositionsRoute,
+  AuthenticatedPlayersStatsRoute: AuthenticatedPlayersStatsRoute,
+  AuthenticatedPlayersTopRoute: AuthenticatedPlayersTopRoute,
   AuthenticatedTeamsTeamIdRoute: AuthenticatedTeamsTeamIdRoute,
+  AuthenticatedTeamsHeadToHeadRoute: AuthenticatedTeamsHeadToHeadRoute,
+  AuthenticatedTeamsStatsRoute: AuthenticatedTeamsStatsRoute,
+  AuthenticatedTeamsTableRoute: AuthenticatedTeamsTableRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedComparisonsIndexRoute: AuthenticatedComparisonsIndexRoute,

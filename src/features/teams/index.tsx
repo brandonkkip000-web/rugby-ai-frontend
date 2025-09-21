@@ -53,19 +53,19 @@ export function Teams() {
       title: 'League Table',
       href: '/teams/table',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Statistics',
       href: '/teams/stats',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
     {
       title: 'Head-to-Head',
       href: '/teams/head-to-head',
       isActive: false,
-      disabled: true,
+      disabled: false,
     },
   ]
 
