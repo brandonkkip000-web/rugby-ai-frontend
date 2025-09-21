@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface StatCardProps {
@@ -31,11 +31,6 @@ export function StatCard({
     success: 'border-green-200 bg-green-50/50',
     warning: 'border-yellow-200 bg-yellow-50/50',
     danger: 'border-red-200 bg-red-50/50'
-  }
-
-  const trendColors = {
-    positive: 'text-green-600',
-    negative: 'text-red-600'
   }
 
   return (

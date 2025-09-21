@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Team, Player, Match } from '@/services/mockData'
+import type { Team, Player, Match } from '@/services/api'
 
 interface RugbyState {
   // Teams

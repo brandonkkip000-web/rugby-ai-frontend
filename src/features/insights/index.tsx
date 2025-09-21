@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { TopNav } from '@/components/layout/top-nav'
@@ -8,13 +7,9 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { StatCard } from '@/components/rugby/StatCard'
 import { ChartWrapper } from '@/components/rugby/ChartWrapper'
-import { analyticsApi } from '@/services/api'
 import { 
   Brain, 
-  TrendingUp, 
   Target,
-  Activity,
-  Trophy,
   Zap,
   Lightbulb,
   BarChart3,
@@ -25,8 +20,6 @@ import {
   Clock
 } from 'lucide-react'
 import { 
-  LineChart, 
-  Line, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -34,25 +27,40 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export function Insights() {
-  const { data: dashboardStats, isLoading } = useQuery({
-    queryKey: ['dashboard-stats'],
-    queryFn: analyticsApi.getDashboardStats
-  })
+  type Prediction = {
+    id: string
+    match: string
+    status: 'upcoming' | 'completed'
+    prediction: string
+    confidence: number
+    reasoning: string
+  }
+
+  type TacticalSuggestion = {
+    team: string
+    impact: 'high' | 'medium' | 'low'
+    suggestion: string
+    reasoning: string
+  }
 
   // Empty AI insights data structure (will be populated by backend)
-  const aiInsights = {
+  const aiInsights: {
+    predictions: Prediction[]
+    tacticalSuggestions: TacticalSuggestion[]
+    performanceTrends: { month: string; tries: number; tackles: number; possession: number }[]
+    keyMetrics: {
+      totalInsights: 0,
+      accuracyRate: 0,
+      activePredictions: 0,
+      recommendationsGenerated: 0
+    }
+  } = {
     predictions: [],
     tacticalSuggestions: [],
     performanceTrends: [],
@@ -60,8 +68,8 @@ export function Insights() {
       totalInsights: 0,
       accuracyRate: 0,
       activePredictions: 0,
-      recommendationsGenerated: 0
-    }
+      recommendationsGenerated: 0,
+    },
   }
 
   const topNav = [

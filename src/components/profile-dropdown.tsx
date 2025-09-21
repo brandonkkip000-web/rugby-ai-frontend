@@ -18,7 +18,7 @@ import { Badge } from '@/components/ui/badge'
 
 export function ProfileDropdown() {
   const [open, setOpen] = useDialogState()
-  const { user } = useAuthStore()
+  const user = useAuthStore((s) => s.auth.user)
 
   return (
     <>
@@ -28,7 +28,7 @@ export function ProfileDropdown() {
             <Avatar className='h-8 w-8'>
               <AvatarImage src='/avatars/01.png' alt='Rugby Analyst' />
               <AvatarFallback>
-                {user?.name?.charAt(0).toUpperCase() || 'RA'}
+                {user?.email?.charAt(0).toUpperCase() || 'RA'}
               </AvatarFallback>
             </Avatar>
           </Button>
@@ -38,11 +38,11 @@ export function ProfileDropdown() {
             <div className='flex flex-col gap-1.5'>
               <div className='flex items-center justify-between'>
                 <p className='text-sm leading-none font-medium'>
-                  {user?.name || 'Rugby Analyst'}
+                  {user?.email?.split('@')[0] || 'Rugby Analyst'}
                 </p>
                 {user?.role && (
                   <Badge variant="outline" className='text-xs capitalize'>
-                    {user.role}
+                    {Array.isArray(user.role) ? user.role[0] : user.role}
                   </Badge>
                 )}
               </div>

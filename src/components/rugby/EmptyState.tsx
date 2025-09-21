@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 interface EmptyStateProps {
   icon: LucideIcon

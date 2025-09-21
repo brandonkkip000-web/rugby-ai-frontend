@@ -14,7 +14,6 @@ import { teamsApi, matchesApi } from '@/services/api'
 import { 
   Trophy, 
   TrendingUp, 
-  Users, 
   Target, 
   MapPin, 
   Calendar,
@@ -32,13 +31,10 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell
+  
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 export function TeamDetail() {
   const { teamId } = useParams({ strict: false })
@@ -54,6 +50,16 @@ export function TeamDetail() {
     queryFn: () => matchesApi.getByTeam(teamId!),
     enabled: !!teamId
   })
+
+  // Extend team with optional UI fields without changing core types
+  type UITeam = NonNullable<typeof team> & {
+    location?: string
+    founded?: number | string
+    coach?: string
+    captain?: string
+    stats: (NonNullable<typeof team>['stats']) & { penalties?: number; conversions?: number }
+  }
+  const tTeam = team as unknown as UITeam | null
 
   // Prepare chart data
   const performanceData = team ? [
@@ -191,11 +197,11 @@ export function TeamDetail() {
               <div className='flex items-center space-x-4 text-muted-foreground'>
                 <span className='flex items-center'>
                   <MapPin className='w-4 h-4 mr-1' />
-                  {team.location}
+                  {tTeam?.location ?? '—'}
                 </span>
                 <span className='flex items-center'>
                   <Calendar className='w-4 h-4 mr-1' />
-                  Founded {team.founded}
+                  Founded {tTeam?.founded ?? '—'}
                 </span>
               </div>
             </div>
@@ -219,7 +225,7 @@ export function TeamDetail() {
         <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8'>
           <StatCard
             title="League Position"
-            value={`#${teams?.findIndex(t => t.id === team.id) + 1 || 'N/A'}`}
+            value="#—"
             description="Current standing"
             icon={Trophy}
             variant="success"
@@ -292,15 +298,15 @@ export function TeamDetail() {
             <CardContent className='space-y-4'>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Head Coach</span>
-                <span className='font-medium'>{team.coach}</span>
+                <span className='font-medium'>{tTeam?.coach ?? '—'}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Captain</span>
-                <span className='font-medium'>{team.captain}</span>
+                <span className='font-medium'>{tTeam?.captain ?? '—'}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Founded</span>
-                <span className='font-medium'>{team.founded}</span>
+                <span className='font-medium'>{tTeam?.founded ?? '—'}</span>
               </div>
             </CardContent>
           </Card>
@@ -319,11 +325,11 @@ export function TeamDetail() {
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Penalties</span>
-                <span className='font-medium'>{team.stats.penalties}</span>
+                <span className='font-medium'>{tTeam?.stats.penalties ?? 0}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Conversions</span>
-                <span className='font-medium'>{team.stats.conversions}</span>
+                <span className='font-medium'>{tTeam?.stats.conversions ?? 0}</span>
               </div>
               <div className='flex items-center justify-between'>
                 <span className='text-sm text-muted-foreground'>Scrum Success</span>
@@ -372,8 +378,8 @@ export function TeamDetail() {
               { label: 'Lineout Success', value: team.stats.lineoutSuccess, max: 100 },
               { label: 'Discipline', value: team.stats.discipline, max: 100 },
               { label: 'Try Scoring', value: team.stats.tries, max: 50 },
-              { label: 'Conversion Rate', value: team.stats.conversions, max: 50 },
-              { label: 'Penalty Success', value: team.stats.penalties, max: 30 }
+              { label: 'Conversion Rate', value: tTeam?.stats.conversions ?? 0, max: 50 },
+              { label: 'Penalty Success', value: tTeam?.stats.penalties ?? 0, max: 30 }
             ]}
           />
         </div>

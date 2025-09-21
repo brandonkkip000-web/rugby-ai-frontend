@@ -76,12 +76,12 @@ export const teamsApi = {
     return [] // Empty array - will be populated by backend
   },
 
-  getById: async (id: string): Promise<Team | null> => {
+  getById: async (_id: string): Promise<Team | null> => {
     await delay(200)
     return null // Will be populated by backend
   },
 
-  getStats: async (id: string): Promise<Team['stats'] | null> => {
+  getStats: async (_id: string): Promise<Team['stats'] | null> => {
     await delay(250)
     return null // Will be populated by backend
   }
@@ -94,17 +94,17 @@ export const playersApi = {
     return [] // Empty array - will be populated by backend
   },
 
-  getById: async (id: string): Promise<Player | null> => {
+  getById: async (_id: string): Promise<Player | null> => {
     await delay(200)
     return null // Will be populated by backend
   },
 
-  getByTeam: async (teamId: string): Promise<Player[]> => {
+  getByTeam: async (_teamId: string): Promise<Player[]> => {
     await delay(250)
     return [] // Empty array - will be populated by backend
   },
 
-  getStats: async (id: string): Promise<Player['stats'] | null> => {
+  getStats: async (_id: string): Promise<Player['stats'] | null> => {
     await delay(200)
     return null // Will be populated by backend
   }
@@ -117,22 +117,22 @@ export const matchesApi = {
     return [] // Empty array - will be populated by backend
   },
 
-  getRecent: async (limit: number = 5): Promise<Match[]> => {
+  getRecent: async (_limit: number = 5): Promise<Match[]> => {
     await delay(200)
     return [] // Empty array - will be populated by backend
   },
 
-  getUpcoming: async (limit: number = 5): Promise<Match[]> => {
+  getUpcoming: async (_limit: number = 5): Promise<Match[]> => {
     await delay(200)
     return [] // Empty array - will be populated by backend
   },
 
-  getById: async (id: string): Promise<Match | null> => {
+  getById: async (_id: string): Promise<Match | null> => {
     await delay(200)
     return null // Will be populated by backend
   },
 
-  getByTeam: async (teamId: string): Promise<Match[]> => {
+  getByTeam: async (_teamId: string): Promise<Match[]> => {
     await delay(250)
     return [] // Empty array - will be populated by backend
   }
@@ -140,12 +140,12 @@ export const matchesApi = {
 
 // Analytics API
 export const analyticsApi = {
-  getTeamComparison: async (teamId1: string, teamId2: string) => {
+  getTeamComparison: async (_teamId1: string, _teamId2: string) => {
     await delay(400)
     throw new Error('Backend not implemented - team comparison data will be available when backend is ready')
   },
 
-  getPlayerComparison: async (playerId1: string, playerId2: string) => {
+  getPlayerComparison: async (_playerId1: string, _playerId2: string) => {
     await delay(400)
     throw new Error('Backend not implemented - player comparison data will be available when backend is ready')
   },

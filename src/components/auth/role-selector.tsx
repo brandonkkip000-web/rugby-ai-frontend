@@ -1,4 +1,4 @@
-import { UserRole, ROLE_CAPABILITIES } from '@/types/auth'
+import { ROLE_CAPABILITIES, type UserRole } from '@/types/auth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Shield, Users2, User, Heart } from 'lucide-react'

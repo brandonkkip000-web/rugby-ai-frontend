@@ -13,11 +13,7 @@ import {
   Wrench,
   UserCog,
   UserX,
-  Users,
   ShieldCheck,
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
   Trophy,
   Users2,
   BarChart3,
@@ -25,7 +21,6 @@ import {
   Activity,
   Target,
 } from 'lucide-react'
-import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {

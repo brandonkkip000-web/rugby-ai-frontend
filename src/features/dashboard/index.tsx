@@ -1,12 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { ConfigDrawer } from '@/components/config-drawer'
@@ -18,17 +11,12 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { StatCard } from '@/components/rugby/StatCard'
 import { ChartWrapper } from '@/components/rugby/ChartWrapper'
-import { EmptyState } from '@/components/rugby/EmptyState'
 import { analyticsApi } from '@/services/api'
 import { 
   Trophy, 
   TrendingUp, 
   Target, 
-  Activity,
-  Calendar,
-  Users,
-  BarChart3,
-  Brain
+  Calendar
 } from 'lucide-react'
 import { 
   LineChart, 
@@ -95,7 +83,7 @@ export function Dashboard() {
               variant="outline" 
               onClick={() => {
                 // TODO: Implement export functionality
-                console.log('Export report clicked - functionality will be implemented with backend')
+                // Export report functionality will be implemented with backend
               }}
             >
               <Calendar className='w-4 h-4 mr-2' />
@@ -219,36 +207,9 @@ export function Dashboard() {
                 description="Latest match results"
                 isLoading={isLoading}
               >
-                {dashboardStats?.recentMatches && dashboardStats.recentMatches.length > 0 ? (
-                  <div className='space-y-4'>
-                    {dashboardStats.recentMatches.map((match, index) => (
-                      <div key={index} className='flex items-center justify-between p-4 border rounded-lg'>
-                        <div className='flex items-center space-x-4'>
-                          <div className='text-sm text-muted-foreground'>
-                            {new Date(match.date).toLocaleDateString()}
-                          </div>
-                          <div className='font-medium'>
-                            {match.homeTeamId === 'kabras-sugar' ? 'Kabras' : 
-                             match.homeTeamId === 'kcb-rugby' ? 'KCB' :
-                             match.homeTeamId === 'menengai-oilers' ? 'Oilers' : 'Home'} vs {' '}
-                            {match.awayTeamId === 'kabras-sugar' ? 'Kabras' : 
-                             match.awayTeamId === 'kcb-rugby' ? 'KCB' :
-                             match.awayTeamId === 'menengai-oilers' ? 'Oilers' : 'Away'}
-                          </div>
-                        </div>
-                        <div className='flex items-center space-x-2'>
-                          <Badge variant="outline">
-                            {match.homeScore} - {match.awayScore}
-                          </Badge>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className='text-center py-8 text-muted-foreground'>
-                    No recent matches available. Match results will appear here once the backend is connected.
-                  </div>
-                )}
+                <div className='text-center py-8 text-muted-foreground'>
+                  No recent matches available. Match results will appear here once the backend is connected.
+                </div>
               </ChartWrapper>
 
               <ChartWrapper
@@ -256,34 +217,9 @@ export function Dashboard() {
                 description="Next fixtures"
                 isLoading={isLoading}
               >
-                {dashboardStats?.upcomingMatches && dashboardStats.upcomingMatches.length > 0 ? (
-                  <div className='space-y-4'>
-                    {dashboardStats.upcomingMatches.map((match, index) => (
-                      <div key={index} className='flex items-center justify-between p-4 border rounded-lg'>
-                        <div className='flex items-center space-x-4'>
-                          <div className='text-sm text-muted-foreground'>
-                            {new Date(match.date).toLocaleDateString()}
-                          </div>
-                          <div className='font-medium'>
-                            {match.homeTeamId === 'kabras-sugar' ? 'Kabras' : 
-                             match.homeTeamId === 'kcb-rugby' ? 'KCB' :
-                             match.homeTeamId === 'menengai-oilers' ? 'Oilers' : 'Home'} vs {' '}
-                            {match.awayTeamId === 'kabras-sugar' ? 'Kabras' : 
-                             match.awayTeamId === 'kcb-rugby' ? 'KCB' :
-                             match.awayTeamId === 'menengai-oilers' ? 'Oilers' : 'Away'}
-                          </div>
-                        </div>
-                        <Badge variant="secondary">
-                          Upcoming
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className='text-center py-8 text-muted-foreground'>
-                    No upcoming matches available. Fixtures will appear here once the backend is connected.
-                  </div>
-                )}
+                <div className='text-center py-8 text-muted-foreground'>
+                  No upcoming matches available. Fixtures will appear here once the backend is connected.
+                </div>
               </ChartWrapper>
             </div>
           </TabsContent>

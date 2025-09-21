@@ -17,7 +17,6 @@ import {
   TrendingUp, 
   Activity,
   Trophy,
-  MapPin,
   User,
   Calendar,
   Ruler,
@@ -32,11 +31,10 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  LineChart,
-  Line,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  type PieLabelRenderProps
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -54,9 +52,18 @@ export function PlayerDetail() {
 
   const { data: team } = useQuery({
     queryKey: ['team', player?.teamId],
-    queryFn: () => teamsApi.getById(player?.teamId!),
+    queryFn: () => teamsApi.getById(player?.teamId ?? ''),
     enabled: !!player?.teamId
   })
+
+  // Extend team with optional UI fields without changing core types
+  type UITeam = NonNullable<typeof team> & {
+    location?: string
+    founded?: number | string
+    coach?: string
+    captain?: string
+  }
+  const tTeam = team as unknown as UITeam | null
 
   // Prepare chart data
   const performanceData = player ? [
@@ -268,7 +275,12 @@ export function PlayerDetail() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, value }) => value > 0 ? `${name}: ${value}` : null}
+                  label={(props: PieLabelRenderProps) => {
+                    const { name, value } = (props as unknown) as { name?: string; value?: number | string }
+                    const v = typeof value === 'number' ? value : Number(value ?? 0)
+                    const n = typeof name === 'string' ? name : ''
+                    return v > 0 && n ? `${n}: ${v}` : null
+                  }}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
@@ -411,11 +423,11 @@ export function PlayerDetail() {
                 <div className='flex-1'>
                   <h3 className='font-semibold'>{team.name}</h3>
                   <p className='text-sm text-muted-foreground'>
-                    {team.location} • Founded {team.founded}
+                    {tTeam?.location ?? '—'} • Founded {tTeam?.founded ?? '—'}
                   </p>
                   <div className='flex items-center space-x-4 mt-2 text-sm'>
-                    <span>Coach: {team.coach}</span>
-                    <span>Captain: {team.captain}</span>
+                    <span>Coach: {tTeam?.coach ?? '—'}</span>
+                    <span>Captain: {tTeam?.captain ?? '—'}</span>
                   </div>
                 </div>
                 <Button variant="outline" size="sm">

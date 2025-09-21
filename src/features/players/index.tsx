@@ -16,9 +16,6 @@ import {
   Target, 
   TrendingUp, 
   Activity,
-  Trophy,
-  MapPin,
-  User,
   Calendar
 } from 'lucide-react'
 import { 
@@ -39,6 +36,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { toast } from 'sonner'
 
 export function Players() {
   const { data: players, isLoading } = useQuery({
@@ -194,7 +192,7 @@ export function Players() {
                   fill="#8884d8"
                   dataKey="count"
                 >
-                  {positionData.map((entry, index) => (
+                  {positionData.map((_entry, index) => (
                     <Cell key={`cell-${index}`} fill={`hsl(${index * 45}, 70%, 50%)`} />
                   ))}
                 </Pie>
@@ -323,7 +321,7 @@ export function Players() {
                       className='w-full'
                       onClick={() => {
                         // TODO: Navigate to player details page
-                        console.log(`View details for player: ${player.name}`)
+                        toast.info(`Player details for ${player.name} coming soon`)
                       }}
                     >
                       View Player Details

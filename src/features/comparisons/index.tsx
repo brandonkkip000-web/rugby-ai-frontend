@@ -7,7 +7,6 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { ConfigDrawer } from '@/components/config-drawer'
-import { StatCard } from '@/components/rugby/StatCard'
 import { ChartWrapper } from '@/components/rugby/ChartWrapper'
 import { EmptyState } from '@/components/rugby/EmptyState'
 import { teamsApi, playersApi, analyticsApi } from '@/services/api'
@@ -15,11 +14,8 @@ import {
   BarChart3, 
   Trophy, 
   Users2, 
-  Target,
-  TrendingUp,
-  Activity,
   ArrowRight,
-  ArrowLeft
+  
 } from 'lucide-react'
 import { 
   BarChart, 
@@ -29,21 +25,37 @@ import {
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  LineChart,
-  Line,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar
+  
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export function Comparisons() {
+  type TeamSummary = {
+    id: string
+    name: string
+    colors: string[]
+    shortName: string
+    stats: { possession: number; territory: number; scrumSuccess: number; lineoutSuccess: number; discipline: number; points: number; tries: number; wins: number; losses: number; draws: number }
+  }
+  type PlayerSummary = {
+    id: string
+    name: string
+    position: string
+    stats: { tries: number; tackles: number; metersGained: number; kickingMeters?: number; lineoutsWon?: number }
+  }
+  type TeamComparisonResult = {
+    team1: TeamSummary
+    team2: TeamSummary
+    comparison: Record<string, { team1: number; team2: number; difference: number }>
+  }
+  type PlayerComparisonResult = {
+    player1: PlayerSummary
+    player2: PlayerSummary
+    comparison: Record<string, { player1: number; player2: number; difference: number }>
+  }
   const [comparisonType, setComparisonType] = useState<'teams' | 'players'>('teams')
   const [selectedTeam1, setSelectedTeam1] = useState<string>('')
   const [selectedTeam2, setSelectedTeam2] = useState<string>('')
@@ -60,13 +72,13 @@ export function Comparisons() {
     queryFn: playersApi.getAll
   })
 
-  const { data: teamComparison, isLoading: teamComparisonLoading } = useQuery({
+  const { data: teamComparison } = useQuery<TeamComparisonResult>({
     queryKey: ['team-comparison', selectedTeam1, selectedTeam2],
     queryFn: () => analyticsApi.getTeamComparison(selectedTeam1, selectedTeam2),
     enabled: !!selectedTeam1 && !!selectedTeam2
   })
 
-  const { data: playerComparison, isLoading: playerComparisonLoading } = useQuery({
+  const { data: playerComparison } = useQuery<PlayerComparisonResult>({
     queryKey: ['player-comparison', selectedPlayer1, selectedPlayer2],
     queryFn: () => analyticsApi.getPlayerComparison(selectedPlayer1, selectedPlayer2),
     enabled: !!selectedPlayer1 && !!selectedPlayer2
@@ -94,22 +106,22 @@ export function Comparisons() {
   ]
 
   // Prepare chart data for team comparison
-  const teamComparisonData = teamComparison ? [
+  const teamComparisonData = teamComparison ? ([
     { metric: 'Possession', team1: teamComparison.team1.stats.possession, team2: teamComparison.team2.stats.possession },
     { metric: 'Territory', team1: teamComparison.team1.stats.territory, team2: teamComparison.team2.stats.territory },
     { metric: 'Scrum Success', team1: teamComparison.team1.stats.scrumSuccess, team2: teamComparison.team2.stats.scrumSuccess },
     { metric: 'Lineout Success', team1: teamComparison.team1.stats.lineoutSuccess, team2: teamComparison.team2.stats.lineoutSuccess },
     { metric: 'Discipline', team1: teamComparison.team1.stats.discipline, team2: teamComparison.team2.stats.discipline }
-  ] : []
+  ]) as { metric: string; team1: number; team2: number }[] : []
 
   // Prepare chart data for player comparison
-  const playerComparisonData = playerComparison ? [
+  const playerComparisonData = playerComparison ? ([
     { metric: 'Tries', player1: playerComparison.player1.stats.tries, player2: playerComparison.player2.stats.tries },
     { metric: 'Tackles', player1: playerComparison.player1.stats.tackles, player2: playerComparison.player2.stats.tackles },
     { metric: 'Meters Gained', player1: playerComparison.player1.stats.metersGained, player2: playerComparison.player2.stats.metersGained },
-    { metric: 'Kicking Meters', player1: playerComparison.player1.stats.kickingMeters, player2: playerComparison.player2.stats.kickingMeters },
-    { metric: 'Lineouts Won', player1: playerComparison.player1.stats.lineoutsWon, player2: playerComparison.player2.stats.lineoutsWon }
-  ] : []
+    { metric: 'Kicking Meters', player1: playerComparison.player1.stats.kickingMeters ?? 0, player2: playerComparison.player2.stats.kickingMeters ?? 0 },
+    { metric: 'Lineouts Won', player1: playerComparison.player1.stats.lineoutsWon ?? 0, player2: playerComparison.player2.stats.lineoutsWon ?? 0 }
+  ]) as { metric: string; player1: number; player2: number }[] : []
 
   return (
     <>
@@ -292,7 +304,7 @@ export function Comparisons() {
                     description="Advantages and disadvantages"
                   >
                     <div className="space-y-4">
-                      {Object.entries(teamComparison.comparison).map(([key, value]: [string, any]) => (
+                      {Object.entries(teamComparison.comparison as Record<string, { team1: number; team2: number; difference: number }>).map(([key, value]) => (
                         <div key={key} className="p-4 border rounded-lg">
                           <div className="flex items-center justify-between mb-2">
                             <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
@@ -437,7 +449,7 @@ export function Comparisons() {
                     description="Advantages and disadvantages"
                   >
                     <div className="space-y-4">
-                      {Object.entries(playerComparison.comparison).map(([key, value]: [string, any]) => (
+                      {Object.entries(playerComparison.comparison as Record<string, { player1: number; player2: number; difference: number }>).map(([key, value]) => (
                         <div key={key} className="p-4 border rounded-lg">
                           <div className="flex items-center justify-between mb-2">
                             <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>

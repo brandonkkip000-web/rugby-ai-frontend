@@ -20,7 +20,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
 import { RoleSelector } from '@/components/auth/role-selector'
-import { UserRole } from '@/types/auth'
+import type { UserRole } from '@/types/auth'
 
 const formSchema = z.object({
   email: z.email({
@@ -30,9 +30,7 @@ const formSchema = z.object({
     .string()
     .min(1, 'Please enter your password')
     .min(7, 'Password must be at least 7 characters long'),
-  role: z.enum(['admin', 'coach', 'player', 'fan'], {
-    required_error: 'Please select a role',
-  }),
+  role: z.enum(['admin', 'coach', 'player', 'fan']),
 })
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
@@ -69,11 +67,9 @@ export function UserAuthForm({
 
     // Mock successful authentication with role-based user
     const mockUser = {
-      id: 'ACC001',
+      accountNo: 'ACC001',
       email: data.email,
-      name: data.email.split('@')[0],
-      role: selectedRole,
-      permissions: [], // Will be populated by backend based on role
+      role: [selectedRole],
       exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours from now
     }
 
@@ -208,7 +204,7 @@ export function UserAuthForm({
             disabled={isLoading}
             onClick={() => {
               // TODO: Implement GitHub OAuth
-              console.log('GitHub login clicked - OAuth will be implemented with backend')
+              toast.info('GitHub login will be implemented with backend OAuth')
             }}
           >
             <IconGithub className='h-4 w-4' /> GitHub
@@ -219,7 +215,7 @@ export function UserAuthForm({
             disabled={isLoading}
             onClick={() => {
               // TODO: Implement Facebook OAuth
-              console.log('Facebook login clicked - OAuth will be implemented with backend')
+              toast.info('Facebook login will be implemented with backend OAuth')
             }}
           >
             <IconFacebook className='h-4 w-4' /> Facebook
