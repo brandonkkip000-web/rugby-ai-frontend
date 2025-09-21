@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IconFacebook, IconGithub } from '@/assets/brand-icons'
+import { IconGmail } from '@/assets/brand-icons'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -119,22 +119,14 @@ export function SignUpForm({
           </div>
         </div>
 
-        <div className='grid grid-cols-2 gap-2'>
+        <div className='grid grid-cols-1 gap-2'>
           <Button
             variant='outline'
             className='w-full'
             type='button'
             disabled={isLoading}
           >
-            <IconGithub className='h-4 w-4' /> GitHub
-          </Button>
-          <Button
-            variant='outline'
-            className='w-full'
-            type='button'
-            disabled={isLoading}
-          >
-            <IconFacebook className='h-4 w-4' /> Facebook
+            <IconGmail className='h-4 w-4' /> Google
           </Button>
         </div>
       </form>

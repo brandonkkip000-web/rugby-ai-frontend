@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, LogIn, ArrowRight } from 'lucide-react'
 import { toast } from 'sonner'
-import { IconFacebook, IconGithub } from '@/assets/brand-icons'
+import { IconGmail } from '@/assets/brand-icons'
 import { useAuthStore } from '@/stores/auth-store'
 import { sleep, cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -197,28 +197,17 @@ export function UserAuthForm({
           </div>
         </div>
 
-        <div className='grid grid-cols-2 gap-2'>
-          <Button 
-            variant='outline' 
-            type='button' 
+        <div className='grid grid-cols-1 gap-2'>
+          <Button
+            variant='outline'
+            type='button'
             disabled={isLoading}
             onClick={() => {
-              // TODO: Implement GitHub OAuth
-              toast.info('GitHub login will be implemented with backend OAuth')
+              // TODO: Implement Google OAuth
+              toast.info('Google login will be implemented with backend OAuth')
             }}
           >
-            <IconGithub className='h-4 w-4' /> GitHub
-          </Button>
-          <Button 
-            variant='outline' 
-            type='button' 
-            disabled={isLoading}
-            onClick={() => {
-              // TODO: Implement Facebook OAuth
-              toast.info('Facebook login will be implemented with backend OAuth')
-            }}
-          >
-            <IconFacebook className='h-4 w-4' /> Facebook
+            <IconGmail className='h-4 w-4' /> Google
           </Button>
         </div>
       </form>
