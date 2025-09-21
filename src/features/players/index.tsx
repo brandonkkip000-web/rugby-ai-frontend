@@ -6,32 +6,13 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { ConfigDrawer } from '@/components/config-drawer'
-import { StatCard } from '@/components/rugby/StatCard'
 import { ChartWrapper } from '@/components/rugby/ChartWrapper'
 import { HeatmapPlaceholder } from '@/components/rugby/HeatmapPlaceholder'
 import { EmptyState } from '@/components/rugby/EmptyState'
 import { playersApi } from '@/services/api'
 import { 
-  Users2, 
-  Target, 
-  TrendingUp, 
-  Activity,
-  Calendar
+  Users2
 } from 'lucide-react'
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  ScatterChart,
-  Scatter,
-  PieChart,
-  Pie,
-  Cell
-} from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -41,42 +22,12 @@ import { toast } from 'sonner'
 export function Players() {
   const { data: players, isLoading } = useQuery({
     queryKey: ['players'],
-    queryFn: playersApi.getAll
+    queryFn: playersApi.getAll,
+    // Disable until backend is connected to avoid showing mock data
+    enabled: false,
   })
 
-  // Calculate player statistics
-  const playerStats = players ? {
-    totalPlayers: players.length,
-    totalTries: players.reduce((sum, player) => sum + player.stats.tries, 0),
-    totalTackles: players.reduce((sum, player) => sum + player.stats.tackles, 0),
-    totalMeters: players.reduce((sum, player) => sum + player.stats.metersGained, 0),
-    avgAge: players.reduce((sum, player) => sum + player.age, 0) / players.length
-  } : null
-
-  // Prepare chart data
-  const positionData = players?.reduce((acc, player) => {
-    const existing = acc.find(item => item.position === player.position)
-    if (existing) {
-      existing.count += 1
-    } else {
-      acc.push({ position: player.position, count: 1 })
-    }
-    return acc
-  }, [] as { position: string; count: number }[]) || []
-
-  const performanceData = players?.map(player => ({
-    name: player.name.split(' ')[0], // First name only for chart
-    tries: player.stats.tries,
-    tackles: player.stats.tackles,
-    meters: player.stats.metersGained
-  })) || []
-
-  const ageData = players?.map(player => ({
-    name: player.name.split(' ')[0],
-    age: player.age,
-    tries: player.stats.tries,
-    tackles: player.stats.tackles
-  })) || []
+  // Stats and charts are hidden until backend is connected
 
   const topNav = [
     {
@@ -132,46 +83,12 @@ export function Players() {
           </div>
         </div>
 
-        {/* Player Overview Stats */}
-        {playerStats && (
-          <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-5 mb-6'>
-            <StatCard
-              title="Total Players"
-              value={playerStats.totalPlayers}
-              description="Registered players"
-              icon={Users2}
-              variant="default"
-            />
-            <StatCard
-              title="Total Tries"
-              value={playerStats.totalTries}
-              description="This season"
-              icon={Target}
-              variant="success"
-            />
-            <StatCard
-              title="Total Tackles"
-              value={playerStats.totalTackles}
-              description="Defensive actions"
-              icon={Activity}
-              variant="warning"
-            />
-            <StatCard
-              title="Meters Gained"
-              value={`${(playerStats.totalMeters / 1000).toFixed(1)}K`}
-              description="Total distance"
-              icon={TrendingUp}
-              variant="default"
-            />
-            <StatCard
-              title="Avg Age"
-              value={`${playerStats.avgAge.toFixed(1)}`}
-              description="Years"
-              icon={Calendar}
-              variant="default"
-            />
+        {/* Player Overview Stats (hidden until backend connects) */}
+        <div className='mb-6'>
+          <div className='w-full bg-muted/50 rounded-lg py-8 text-center text-muted-foreground'>
+            Player overview statistics will appear here once connected to the backend.
           </div>
-        )}
+        </div>
 
         {/* Charts Section */}
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8'>
@@ -180,25 +97,9 @@ export function Players() {
             description="Distribution across playing positions"
             isLoading={isLoading}
           >
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={positionData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ position, count }) => `${position}: ${count}`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="count"
-                >
-                  {positionData.map((_entry, index) => (
-                    <Cell key={`cell-${index}`} fill={`hsl(${index * 45}, 70%, 50%)`} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className='text-center py-8 text-muted-foreground'>
+              Position distribution will be displayed once data is available.
+            </div>
           </ChartWrapper>
 
           <ChartWrapper
@@ -206,17 +107,9 @@ export function Players() {
             description="Tries, tackles, and meters gained"
             isLoading={isLoading}
           >
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={performanceData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="tries" fill="#3b82f6" name="Tries" />
-                <Bar dataKey="tackles" fill="#10b981" name="Tackles" />
-                <Bar dataKey="meters" fill="#f59e0b" name="Meters" />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className='text-center py-8 text-muted-foreground'>
+              Performance metrics will appear here once data is available.
+            </div>
           </ChartWrapper>
         </div>
 
@@ -227,15 +120,9 @@ export function Players() {
             description="Relationship between player age and performance metrics"
             isLoading={isLoading}
           >
-            <ResponsiveContainer width="100%" height={400}>
-              <ScatterChart data={ageData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="age" name="Age" />
-                <YAxis dataKey="tries" name="Tries" />
-                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                <Scatter dataKey="tries" fill="#3b82f6" />
-              </ScatterChart>
-            </ResponsiveContainer>
+            <div className='text-center py-8 text-muted-foreground'>
+              Age vs performance charts will be rendered once analytics are available.
+            </div>
           </ChartWrapper>
         </div>
 

@@ -12,6 +12,7 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { StatCard } from '@/components/rugby/StatCard'
 import { ChartWrapper } from '@/components/rugby/ChartWrapper'
 import { analyticsApi } from '@/services/api'
+import { toast } from 'sonner'
 import { 
   Trophy, 
   TrendingUp, 
@@ -19,39 +20,17 @@ import {
   Calendar
 } from 'lucide-react'
 import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell
+  
 } from 'recharts'
 
 export function Dashboard() {
   const { data: dashboardStats, isLoading } = useQuery({
     queryKey: ['dashboard-stats'],
-    queryFn: analyticsApi.getDashboardStats
+    queryFn: analyticsApi.getDashboardStats,
+    // Disable until backend is connected to avoid showing mock data
+    enabled: false,
   })
 
-  // Prepare chart data for league performance
-  const leaguePerformanceData = [
-    { month: 'Jan', matches: 8, tries: 45, points: 180 },
-    { month: 'Feb', matches: 12, tries: 67, points: 268 },
-    { month: 'Mar', matches: 10, tries: 58, points: 232 },
-    { month: 'Apr', matches: 14, tries: 89, points: 356 }
-  ]
-
-  const teamDistributionData = [
-    { name: 'Top 4', value: 4, color: '#10b981' },
-    { name: 'Mid Table', value: 4, color: '#f59e0b' },
-    { name: 'Relegation Zone', value: 4, color: '#ef4444' }
-  ]
 
   return (
     <>
@@ -82,8 +61,7 @@ export function Dashboard() {
             <Button 
               variant="outline" 
               onClick={() => {
-                // TODO: Implement export functionality
-                // Export report functionality will be implemented with backend
+                toast.info('Export will be available once the backend is connected')
               }}
             >
               <Calendar className='w-4 h-4 mr-2' />
@@ -159,17 +137,9 @@ export function Dashboard() {
                 className='col-span-1 lg:col-span-4'
                 isLoading={isLoading}
               >
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={leaguePerformanceData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="matches" stroke="#3b82f6" strokeWidth={2} name="Matches" />
-                    <Line type="monotone" dataKey="tries" stroke="#10b981" strokeWidth={2} name="Tries" />
-                    <Line type="monotone" dataKey="points" stroke="#f59e0b" strokeWidth={2} name="Points" />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className='text-center py-8 text-muted-foreground'>
+                  Performance charts will appear once backend analytics are connected.
+                </div>
               </ChartWrapper>
 
               <ChartWrapper
@@ -178,25 +148,9 @@ export function Dashboard() {
                 className='col-span-1 lg:col-span-3'
                 isLoading={isLoading}
               >
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={teamDistributionData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, value }) => `${name}: ${value}`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {teamDistributionData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div className='text-center py-8 text-muted-foreground'>
+                  Team distribution will be available after backend integration.
+                </div>
               </ChartWrapper>
             </div>
 
@@ -230,44 +184,17 @@ export function Dashboard() {
                 title="Season Statistics"
                 description="Key performance indicators"
               >
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={[
-                    { metric: 'Matches Played', value: 44 },
-                    { metric: 'Total Tries', value: 259 },
-                    { metric: 'Total Points', value: 1036 },
-                    { metric: 'Avg Possession', value: 51 },
-                    { metric: 'Avg Territory', value: 49 }
-                  ]}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="metric" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#3b82f6" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className='text-center py-8 text-muted-foreground'>
+                  Season statistics will be displayed here when data is available.
+                </div>
               </ChartWrapper>
 
               <ChartWrapper
                 title="Performance Metrics"
                 description="League-wide averages"
               >
-                <div className='space-y-4'>
-                  <div className='flex items-center justify-between p-3 border rounded-lg'>
-                    <span className='font-medium'>Average Match Duration</span>
-                    <Badge variant="outline">80 minutes</Badge>
-                  </div>
-                  <div className='flex items-center justify-between p-3 border rounded-lg'>
-                    <span className='font-medium'>Tries per Match</span>
-                    <Badge variant="outline">5.9</Badge>
-                  </div>
-                  <div className='flex items-center justify-between p-3 border rounded-lg'>
-                    <span className='font-medium'>Conversion Rate</span>
-                    <Badge variant="outline">78.5%</Badge>
-                  </div>
-                  <div className='flex items-center justify-between p-3 border rounded-lg'>
-                    <span className='font-medium'>Penalty Success</span>
-                    <Badge variant="outline">82.3%</Badge>
-                  </div>
+                <div className='text-center py-8 text-muted-foreground'>
+                  Performance metrics will be shown here once connected to the backend.
                 </div>
               </ChartWrapper>
             </div>
