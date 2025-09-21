@@ -20,17 +20,8 @@ export function HeatmapPlaceholder({
   data = [],
   className 
 }: HeatmapPlaceholderProps) {
-  // Generate sample data if none provided
-  const sampleData = data.length > 0 ? data : [
-    { label: 'Tries', value: 85, max: 100 },
-    { label: 'Tackles', value: 92, max: 100 },
-    { label: 'Meters Gained', value: 78, max: 100 },
-    { label: 'Kicking Meters', value: 65, max: 100 },
-    { label: 'Lineouts Won', value: 88, max: 100 },
-    { label: 'Scrums Won', value: 82, max: 100 },
-    { label: 'Penalties', value: 15, max: 100 },
-    { label: 'Discipline', value: 95, max: 100 }
-  ]
+  // Do not generate any mock data. If no data is provided, we will render
+  // a neutral placeholder state informing the user data will appear later.
 
   const getIntensityColor = (value: number, max: number) => {
     const percentage = (value / max) * 100
@@ -72,6 +63,12 @@ export function HeatmapPlaceholder({
       
       <CardContent>
         <div className="space-y-4">
+          {data.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              Performance heatmap will appear here once data is available.
+            </div>
+          ) : (
+            <>
           {/* Legend */}
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground">Performance Level</span>
@@ -97,7 +94,7 @@ export function HeatmapPlaceholder({
 
           {/* Heatmap Grid */}
           <div className="grid grid-cols-2 gap-4">
-            {sampleData.map((item, index) => (
+            {data.map((item, index) => (
               <div key={index} className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{item.label}</span>
@@ -149,24 +146,26 @@ export function HeatmapPlaceholder({
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-lg font-bold text-green-600">
-                  {sampleData.filter(item => item.value / item.max >= 0.8).length}
+                  {data.filter(item => item.value / item.max >= 0.8).length}
                 </div>
                 <div className="text-xs text-muted-foreground">Excellent</div>
               </div>
               <div>
                 <div className="text-lg font-bold text-yellow-600">
-                  {sampleData.filter(item => item.value / item.max >= 0.6 && item.value / item.max < 0.8).length}
+                  {data.filter(item => item.value / item.max >= 0.6 && item.value / item.max < 0.8).length}
                 </div>
                 <div className="text-xs text-muted-foreground">Good</div>
               </div>
               <div>
                 <div className="text-lg font-bold text-orange-600">
-                  {sampleData.filter(item => item.value / item.max < 0.6).length}
+                  {data.filter(item => item.value / item.max < 0.6).length}
                 </div>
                 <div className="text-xs text-muted-foreground">Needs Work</div>
               </div>
             </div>
           </div>
+          </>
+          )}
         </div>
       </CardContent>
     </Card>
