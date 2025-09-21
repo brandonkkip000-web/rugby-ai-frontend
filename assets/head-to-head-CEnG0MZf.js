@@ -1,0 +1,1 @@
+import{j as o}from"./index-C22KB8A5.js";const e=()=>o.jsxs("div",{className:"p-6",children:[o.jsx("h2",{className:"text-2xl font-bold mb-2",children:"Head-to-Head"}),o.jsx("p",{className:"text-muted-foreground",children:"Coming soon: team vs team historical comparisons."})]});export{e as component};
